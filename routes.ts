@@ -2,13 +2,13 @@
  * An array of route that are accessible to the public
  * @type {string[]}
  */
-export const publicRoutes = ['/'];
+export const publicRoutes = ['/', '/auth/new-verification'];
 
 /**
  * An array of route that are used for authentication
  * @type {string[]}
  */
-export const authRoutes = ['/auth/login', '/auth/register'];
+export const authRoutes = ['/auth/login', '/auth/register', '/auth/error'];
 
 /**
  * The prefix for API authentication routes
