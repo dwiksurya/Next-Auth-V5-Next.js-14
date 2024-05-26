@@ -5,6 +5,7 @@ import { PrismaClient } from '@prisma/client';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { getUserById } from './data/user';
 import { db } from './lib/db';
+import { getTwoFactorConfirmationByUserId } from './data/two-factor-confirmation';
 
 const prisma = new PrismaClient();
 
@@ -30,6 +31,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       // Prevent sign in without email verification
       if (!existingUser?.emailVerified) return false;
+
+      // 2FA
+      if (existingUser.isTwoFactorEnable) {
+        const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
+          existingUser.id
+        );
+
+        if (!twoFactorConfirmation) return false;
+
+        // Delete 2FA for next sign
+        await db.twoFactorConfirmation.delete({
+          where: {
+            id: twoFactorConfirmation.id,
+          },
+        });
+      }
 
       return true;
     },
