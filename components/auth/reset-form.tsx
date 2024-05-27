@@ -23,14 +23,13 @@ import { reset } from '@/actions/reset';
 import { useState, useTransition } from 'react';
 
 export const ResetForm = () => {
-
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof ResetSchema>>({
     resolver: zodResolver(ResetSchema),
     defaultValues: {
-      email: ''
+      email: '',
     },
   });
 
@@ -49,7 +48,7 @@ export const ResetForm = () => {
   return (
     <CardWrapper
       headerLabel='Forgot your password?'
-      backButtonLabel="Back to login"
+      backButtonLabel='Back to login'
       backButtonHref='/auth/login'
     >
       <Form {...form}>
@@ -73,7 +72,6 @@ export const ResetForm = () => {
                 </FormItem>
               )}
             />
-
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />
